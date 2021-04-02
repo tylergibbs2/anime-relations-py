@@ -1,6 +1,10 @@
 # anime-relations-py
 
+[![PyPI version](https://img.shields.io/pypi/v/anime-relations-py?color=blue)](https://pypi.org/project/anime-relations-py/)
+
 A parser for anime-relations. So you don't have to.
+
+[More information on anime episode relations can be found here.](https://github.com/erengy/anime-relations)
 
 ## Installation
 
