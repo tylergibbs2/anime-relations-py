@@ -10,6 +10,8 @@ RULE_PATTERN = re.compile(r"- (?P<mal_from>[\d\?]+)\|(?P<kitsu_from>[\d\?]+)\|(?
 
 @dataclass
 class Rule:
+    raw: str
+
     mal_from: Optional[int]
     kitsu_from: Optional[int]
     anilist_from: Optional[int]
@@ -99,6 +101,7 @@ class Rule:
 
         if parsed.group("episodes_to").endswith("!"):
             redirect = cls(
+                raw=parsed.group(0),
                 mal_from=mal_to,
                 kitsu_from=kitsu_to,
                 anilist_from=anilist_to,
@@ -111,6 +114,7 @@ class Rule:
             instances.append(redirect)
 
         instance = cls(
+            raw=parsed.group(0),
             mal_from=mal_from,
             kitsu_from=kitsu_from,
             anilist_from=anilist_from,
