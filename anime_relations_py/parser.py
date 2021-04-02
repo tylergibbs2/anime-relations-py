@@ -75,6 +75,9 @@ class AnimeRelations:
 
         Updates the instance with the parsed new rules.
         """
+        if not aiohttp_installed:
+            raise RuntimeError("Cannot fetch async if aiohttp is not installed.")
+
         url = f"https://raw.githubusercontent.com/{self.username}/{self.repo_name}/{self.branch_name}/{self.file_path}"
         async with self.session.get(url) as resp:
             self.parse(await resp.text())
@@ -86,6 +89,9 @@ class AnimeRelations:
 
         Updates the instance with the parsed new rules.
         """
+        if not requests_installed:
+            raise RuntimeError("Cannot fetch sync if requests is not installed.")
+
         url = f"https://raw.githubusercontent.com/{self.username}/{self.repo_name}/{self.branch_name}/{self.file_path}"
         resp = requests.get(url)
         self.parse(resp.text)
