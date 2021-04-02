@@ -1,3 +1,4 @@
+from datetime import datetime
 import re
 from typing import Dict, List, Optional
 
@@ -24,13 +25,15 @@ if not aiohttp_installed and not requests_installed:
 
 
 class AnimeRelations:
-    session: Optional[aiohttp.ClientSession]
+    if aiohttp_installed:
+        session: Optional[aiohttp.ClientSession]
 
     username: str
     repo_name: str
     branch_name: str
     file_path: str
 
+    last_fetch: Optional[datetime]
     meta: Dict[str, str]
     rules: List[Rule]
 
@@ -65,6 +68,7 @@ class AnimeRelations:
         self.branch_name = kwargs.pop("branch_name", "master")
         self.file_path = kwargs.pop("file_path", "anime-relations.txt")
 
+        self.last_fetch = None
         self.meta = {}
         self.rules = []
 
@@ -82,6 +86,8 @@ class AnimeRelations:
         async with self.session.get(url) as resp:
             self.parse(await resp.text())
 
+        self.last_fetch = datetime.utcnow()
+
     def fetch_sync(self) -> None:
         """
         Synchronously fetches new rules with the
@@ -95,6 +101,8 @@ class AnimeRelations:
         url = f"https://raw.githubusercontent.com/{self.username}/{self.repo_name}/{self.branch_name}/{self.file_path}"
         resp = requests.get(url)
         self.parse(resp.text)
+
+        self.last_fetch = datetime.utcnow()
 
     def parse(self, data: str) -> None:
         """
