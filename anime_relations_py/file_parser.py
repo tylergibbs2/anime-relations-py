@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 import re
 from typing import Dict, List, Optional
@@ -25,8 +27,7 @@ if not aiohttp_installed and not requests_installed:
 
 
 class AnimeRelations:
-    if aiohttp_installed:
-        session: Optional[aiohttp.ClientSession]
+    session: Optional[aiohttp.ClientSession]
 
     username: str
     repo_name: str
@@ -79,7 +80,7 @@ class AnimeRelations:
 
         Updates the instance with the parsed new rules.
         """
-        if not aiohttp_installed:
+        if self.session is None:
             raise RuntimeError("Cannot fetch async if aiohttp is not installed.")
 
         url = f"https://raw.githubusercontent.com/{self.username}/{self.repo_name}/{self.branch_name}/{self.file_path}"
