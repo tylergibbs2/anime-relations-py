@@ -29,6 +29,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     install_requires=requirements,
+    include_package_data=True,
     python_requires='>=3.6',
     classifiers=[
         'License :: OSI Approved :: MIT License',
